@@ -41,26 +41,29 @@ def analyseEmotion(message: str) -> str:
               'outformat': 'json'}
 
     r = requests.post(url, data=query)
-    print(r.status_code)
-    print(r.text)
-    print(r.json())
 
-    translation = r.json()['translation']
-    print(translation)
+    if(r.status_code == "200" and not r.text == "<result>You have reached the free limit. Premium key is required. Please go to the Buy page to get the access.</result>" ):
+        print(r.status_code)
+        print(r.text)
+        print(r.json())
 
-    url = "http://gateway-a.watsonplatform.net/calls/text/TextGetEmotion"
-    query = { 'apikey': apiKey,
-              'text': translation,
-              'outputMode': 'json'}    
-    
-    r = requests.post(url, data=query)
-    print(r.status_code)
-    print(r.text)
-    print(r.json())
+        translation = r.json()['translation']
+        print(translation)
 
-    docEmotions = r.json()['docEmotions']
-    ret = "Colère = " + docEmotions['anger'] + "\n" + "Dégout = " + docEmotions['disgust'] + "\n" + "Peur = " + docEmotions['fear'] + "\n" + "Joie = " + docEmotions['joy'] + "\n" + "Tristesse = " + docEmotions['sadness'] + "\n"
+        url = "http://gateway-a.watsonplatform.net/calls/text/TextGetEmotion"
+        query = { 'apikey': apiKey,
+                'text': translation,
+                'outputMode': 'json'}    
+        
+        r = requests.post(url, data=query)
+        print(r.status_code)
+        print(r.text)
+        print(r.json())
 
+        docEmotions = r.json()['docEmotions']
+        ret = "Colère = " + docEmotions['anger'] + "\n" + "Dégout = " + docEmotions['disgust'] + "\n" + "Peur = " + docEmotions['fear'] + "\n" + "Joie = " + docEmotions['joy'] + "\n" + "Tristesse = " + docEmotions['sadness'] + "\n"
+    else:
+        ret = "Je suis en PLS. Pose cette poule et revient plus tard."
     return ret
 
 
