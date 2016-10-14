@@ -41,6 +41,8 @@ def analyseEmotion(message: str) -> str:
               'outformat': 'json'}
 
     r = requests.post(url, data=query)
+    print(r.status_code)
+    print(r.text)
     print(r.json())
 
     translation = r.json()['translation']
@@ -52,7 +54,10 @@ def analyseEmotion(message: str) -> str:
               'outputMode': 'json'}    
     
     r = requests.post(url, data=query)
+    print(r.status_code)
+    print(r.text)
     print(r.json())
+
     docEmotions = r.json()['docEmotions']
     ret = "Colère = " + docEmotions['anger'] + "\n" + "Dégout = " + docEmotions['disgust'] + "\n" + "Peur = " + docEmotions['fear'] + "\n" + "Joie = " + docEmotions['joy'] + "\n" + "Tristesse = " + docEmotions['sadness'] + "\n"
 
