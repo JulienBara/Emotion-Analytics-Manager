@@ -41,20 +41,20 @@ def analyseEmotion(message: str) -> str:
               'outformat': 'json'}
 
     r = requests.post(url, data=query)
-    print(r.text)
+    print(r.json())
 
-    translation = r.text.translation
+    translation = r.json()['translation']
     print(translation)
 
     url = "http://gateway-a.watsonplatform.net/calls/text/TextGetEmotion"
     query = { 'apikey': apiKey,
               'text': translation,
-              'ouputMode': 'json'}    
+              'outputMode': 'json'}    
     
-    r = request.post(utl, data=query)
-    print(r)
-
-    ret = "Colère = " + r.docEmotions.anger + "\n" + "Dégout = " + r.docEmtions.disgust + "\n" + "Peur = " + r.docEmotions.fear + "\n" + "Joie = " + r.docEmotions.joy + "\n" + "Tristesse = " + r.docEmotions.sadness + "\n"
+    r = requests.post(url, data=query)
+    print(r.json())
+    docEmotions = r.json()['docEmotions']
+    ret = "Colère = " + docEmotions['anger'] + "\n" + "Dégout = " + docEmotions['disgust'] + "\n" + "Peur = " + docEmotions['fear'] + "\n" + "Joie = " + docEmotions['joy'] + "\n" + "Tristesse = " + docEmotions['sadness'] + "\n"
 
     return ret
 
