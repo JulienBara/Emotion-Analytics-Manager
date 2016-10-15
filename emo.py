@@ -63,7 +63,7 @@ def analyseEmotion(message: str) -> str:
         docEmotions = r.json()['docEmotions']
         ret = "Colère = " + docEmotions['anger'] + "\n" + "Dégout = " + docEmotions['disgust'] + "\n" + "Peur = " + docEmotions['fear'] + "\n" + "Joie = " + docEmotions['joy'] + "\n" + "Tristesse = " + docEmotions['sadness'] + "\n"
     else:
-        ret = "Je suis en PLS. Pose cette poule et revient plus tard."
+        ret = "Je suis en PLS. Pose cette poule et reviens plus tard." + r.status_code
     return ret
 
 
