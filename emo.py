@@ -42,7 +42,7 @@ def analyseEmotion(message: str) -> str:
 
     r = requests.post(url, data=query)
 
-    if(r.status_code == "200" and not r.text == "<result>You have reached the free limit. Premium key is required. Please go to the Buy page to get the access.</result>" ):
+    if(r.status_code == 200 and not r.text == "<result>You have reached the free limit. Premium key is required. Please go to the Buy page to get the access.</result>" ):
         print(r.status_code)
         print(r.text)
         print(r.json())
