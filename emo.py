@@ -61,6 +61,36 @@ def analyseEmotion(message: str) -> str:
         print(r.json())
 
         docEmotions = r.json()['docEmotions']
+
+        # new output
+        # i = 1    
+        # anger = ""
+        # while i < float(docEmotions['anger']) * 10:
+        #     anger += "*"
+        
+        # i = 1
+        # disgust = ""
+        # while i < float(docEmotions['disgust']) * 10:
+        #     disgust += "*"
+
+        # i = 1
+        # fear = ""
+        # while i < float(docEmotions['fear']) * 10:
+        #     fear += "*"
+
+        # i = 1
+        # joy = ""
+        # while i < float(docEmotions['joy']) * 10:
+        #     joy += "*"
+
+        # i = 1
+        # sadness = ""
+        # while i < float(docEmotions['sadness']) * 10:
+        #     sadness += "*"
+
+        # ret = "Colère = " + anger + "\n" + "Dégout = " + disgust + "\n" + "Peur = " + fear + "\n" + "Joie = " + joy + "\n" + "Tristesse = " + sadness + "\n"
+
+        # old output
         ret = "Colère = " + docEmotions['anger'] + "\n" + "Dégout = " + docEmotions['disgust'] + "\n" + "Peur = " + docEmotions['fear'] + "\n" + "Joie = " + docEmotions['joy'] + "\n" + "Tristesse = " + docEmotions['sadness'] + "\n"
     else:
         ret = "Je suis en PLS. Pose cette poule et reviens plus tard." + r.status_code
