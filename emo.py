@@ -94,7 +94,7 @@ def analyseEmotion(message: str) -> str:
         ret = "Colère = " + docEmotions['anger'] + "\n" + "Dégout = " + docEmotions['disgust'] + "\n" + "Peur = " + docEmotions['fear'] + "\n" + "Joie = " + docEmotions['joy'] + "\n" + "Tristesse = " + docEmotions['sadness'] + "\n"
 
     else:
-        ret = "Je suis en PLS. Pose cette poule et reviens plus tard." + str(r.status_code)
+        ret = "Je suis en PLS. Pose cette poule et reviens plus tard. (Status code = " + str(r.status_code) +")"
     return ret
 
 
