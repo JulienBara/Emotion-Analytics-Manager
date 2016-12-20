@@ -54,7 +54,7 @@ def analyse_emotion(message: str) -> str:
         print(r.text)
         print(r.json())
 
-        doc_emotions = r.json()['doc_emotions']
+        doc_emotions = r.json()['docEmotions']
 
         # new output
         # i = 1    
