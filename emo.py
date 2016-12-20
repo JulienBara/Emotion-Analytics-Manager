@@ -11,10 +11,9 @@ logging.basicConfig(level=logging.DEBUG,
 version = '1.0'
 
 # Read keys
-key = open('./key').read().splitlines()[0]
-email = open('./email').read().splitlines()[0]
-password = open('./password').read().splitlines()[0]
-apiKey = open('./apikey').read().splitlines()[0]
+telegramKey = open('./key').read().splitlines()[0]
+yandexKey = open('./yandexKey').read().splitlines()[0]
+watsonKey = open('./apikey').read().splitlines()[0]
 
 # Basic commands 
 def start(bot, update):
@@ -32,26 +31,23 @@ def emo(bot, update, args):
 
 # Functions
 def analyseEmotion(message: str) -> str:
-    url = "http://www.frengly.com/"
-    query = { 'src': 'fr',
-              'dest': 'en',
-              'text': message,
-              'email': email,
-              'password': password,
-              'outformat': 'json'}
+    url = "https://translate.yandex.net/api/v1.5/tr.json/translate"
+    query = { 'key': yandexKey,
+              'lang': 'en',
+              'text': message}
 
     r = requests.post(url, data=query)
 
-    if(r.status_code == 200 and not r.text == "<result>You have reached the free limit. Premium key is required. Please go to the Buy page to get the access.</result>" ):
+    if(r.status_code == 200):
         print(r.status_code)
         print(r.text)
         print(r.json())
 
-        translation = r.json()['translation']
+        translation = r.json()['text']
         print(translation)
 
         url = "http://gateway-a.watsonplatform.net/calls/text/TextGetEmotion"
-        query = { 'apikey': apiKey,
+        query = { 'apikey': watsonKey,
                 'text': translation,
                 'outputMode': 'json'}    
         
@@ -100,7 +96,7 @@ def analyseEmotion(message: str) -> str:
 
 ########################################
 
-updater = Updater(key)
+updater = Updater(telegramKey)
 dispatcher = updater.dispatcher
 
 dispatcher.add_handler(CommandHandler('startEmo', start))
