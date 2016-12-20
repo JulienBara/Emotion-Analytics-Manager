@@ -87,12 +87,18 @@ def analyse_emotion(message: str) -> str:
         #     sadness += "*"
         #     i += 1
 
-        # ret = "Colère = " + anger + "\n" + "Dégout = " + disgust + "\n" + "Peur = " + fear + "\n" + "Joie = " + joy + "\n" + "Tristesse = " + sadness + "\n"
+        # ret = "Colère = " + anger + "\n"\
+        #       + "Dégout = " + disgust + "\n"\
+        #       + "Peur = " + fear + "\n"\
+        #       + "Joie = " + joy + "\n"\
+        #       + "Tristesse = " + sadness + "\n"
 
         # old output
-        ret = "Colère = " + doc_emotions['anger'] + "\n" + "Dégout = " + doc_emotions['disgust'] + "\n" + "Peur = " + \
-              doc_emotions['fear'] + "\n" + "Joie = " + doc_emotions['joy'] + "\n" + "Tristesse = " + doc_emotions[
-                  'sadness'] + "\n"
+        ret = "Colère = " + str(float(doc_emotions['anger'])/2) + "\n"\
+              + "Dégout = " + str(float(doc_emotions['disgust'])/2) + "\n"\
+              + "Peur = " + str(float(doc_emotions['fear'])/2) + "\n"\
+              + "Joie = " + str(float(doc_emotions['joy'])/2) + "\n"\
+              + "Tristesse = " + str(float(doc_emotions['sadness'])/2) + "\n"
 
     else:
         ret = "Je suis en PLS. Pose cette poule et reviens plus tard. (Status code = " + str(r.status_code) + ")"
