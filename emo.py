@@ -61,26 +61,31 @@ def analyse_emotion(message: str) -> str:
         # anger = ""
         # while i < float(doc_emotions['anger']) * 10:
         #     anger += "*"
+        #     i += 1
 
         # i = 1
         # disgust = ""
         # while i < float(doc_emotions['disgust']) * 10:
         #     disgust += "*"
+        #     i += 1
 
         # i = 1
         # fear = ""
         # while i < float(doc_emotions['fear']) * 10:
         #     fear += "*"
+        #     i += 1
 
         # i = 1
         # joy = ""
         # while i < float(doc_emotions['joy']) * 10:
         #     joy += "*"
+        #     i += 1
 
         # i = 1
         # sadness = ""
         # while i < float(doc_emotions['sadness']) * 10:
         #     sadness += "*"
+        #     i += 1
 
         # ret = "Colère = " + anger + "\n" + "Dégout = " + disgust + "\n" + "Peur = " + fear + "\n" + "Joie = " + joy + "\n" + "Tristesse = " + sadness + "\n"
 
