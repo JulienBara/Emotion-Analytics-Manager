@@ -1,6 +1,7 @@
 # coding=utf-8
 
-from telegram.ext import Updater, CommandHandler
+from telegram.ext import Updater, CommandHandler, MessageHandler, Filters
+from telegram import PhotoSize
 import requests
 import logging
 
@@ -11,6 +12,7 @@ logging.basicConfig(level=logging.DEBUG,
 telegramKey = open('./key').read().splitlines()[0]
 yandexKey = open('./yandexKey').read().splitlines()[0]
 watsonKey = open('./apikey').read().splitlines()[0]
+key_microsoft_emotion = open('./keyMicrosoftEmotion').read().splitlines()[0]
 
 
 # Basic commands
@@ -24,6 +26,13 @@ def emo(bot, update, args):
     chat_id = update.message.chat_id
     mot = ' '.join(args)
     message = analyse_emotion(mot)
+    bot.sendMessage(chat_id, text=message)
+
+
+def emo_image(bot, update):
+    chat_id = update.message.chat_id
+    file_path = bot.getFile(update.message.photo[2].file_id).file_path
+    message = analyse_emotion_image(file_path)
     bot.sendMessage(chat_id, text=message)
 
 
@@ -112,6 +121,31 @@ def analyse_emotion(message: str) -> str:
     return ret
 
 
+def analyse_emotion_image(image_url: str) -> str:
+    import http.client, urllib.request, urllib.parse, urllib.error, base64, sys
+    headers = {
+        'Content-Type': 'application/json',
+        'Ocp-Apim-Subscription-Key': key_microsoft_emotion,
+    }
+
+    params = urllib.parse.urlencode({
+    })
+
+    body = "{ 'url': '" + image_url + "' }"
+
+    try:
+        conn = http.client.HTTPSConnection('westus.api.cognitive.microsoft.com')
+        conn.request("POST", "/emotion/v1.0/recognize?%s" % params, body, headers)
+        response = conn.getresponse()
+        data = response.read()
+        print(data)
+        conn.close()
+    except Exception as e:
+        print(e.args)
+
+    return response
+
+
 ########################################
 
 updater = Updater(telegramKey)
@@ -119,6 +153,7 @@ dispatcher = updater.dispatcher
 
 dispatcher.add_handler(CommandHandler('startEmo', start))
 dispatcher.add_handler(CommandHandler('emo', emo, pass_args=True))
+dispatcher.add_handler(MessageHandler(Filters.photo, emo_image))
 
 updater.start_polling()
 updater.idle()
