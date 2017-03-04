@@ -1,7 +1,8 @@
 from telegram.ext import Updater, CommandHandler, MessageHandler, Filters
 import requests
-import http.client, urllib.request, urllib.parse, urllib.error, base64, sys
+# import http.client, urllib.request, urllib.parse, urllib.error, base64, sys
 import logging
+import json
 
 logging.basicConfig(level=logging.DEBUG,
                     format='%(asctime)s - %(name)s - %(levelname)s - %(message)s')
@@ -119,26 +120,23 @@ def analyse_emotion(message: str) -> str:
     return ret
 
 
-def analyse_emotion_image(image_url: str) -> str:
-    headers = {
-        'Content-Type': 'application/json',
-        'Ocp-Apim-Subscription-Key': key_microsoft_emotion,
-    }
+def analyse_emotion_image(image_url: str) -> dict:
+    url = "https://westus.api.cognitive.microsoft.com/emotion/v1.0/recognize"
 
-    params = urllib.parse.urlencode({
-    })
+    headers = {'Content-Type': 'application/json',
+             'Ocp-Apim-Subscription-Key': key_microsoft_emotion}
 
-    body = "{ 'url': '" + image_url + "' }"
+    query = {'url': image_url}
 
-    try:
-        conn = http.client.HTTPSConnection('westus.api.cognitive.microsoft.com')
-        conn.request("POST", "/emotion/v1.0/recognize?%s" % params, body, headers)
-        response = conn.getresponse()
-        data = response.read()
-        print(data)
-        conn.close()
-    except Exception as e:
-        print(e.args)
+    r = requests.post(url, headers=headers, data=json.dumps(query, ensure_ascii=False))
+
+    print(r.status_code)
+    print(r.text)
+    print(r.json())
+
+    return r.json()
+
+
 
     return response
 
