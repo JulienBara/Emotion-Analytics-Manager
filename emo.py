@@ -1,8 +1,6 @@
-# coding=utf-8
-
 from telegram.ext import Updater, CommandHandler, MessageHandler, Filters
-from telegram import PhotoSize
 import requests
+import http.client, urllib.request, urllib.parse, urllib.error, base64, sys
 import logging
 
 logging.basicConfig(level=logging.DEBUG,
@@ -104,17 +102,17 @@ def analyse_emotion(message: str) -> str:
 
         # old output
 
-        sum = float(doc_emotions['anger'])\
-              + float(doc_emotions['disgust'])\
-              + float(doc_emotions['fear'])\
-              + float(doc_emotions['fear'])\
-              + float(doc_emotions['sadness'])
+        sum = float(doc_emotions['anger']) \
+            + float(doc_emotions['disgust']) \
+            + float(doc_emotions['fear']) \
+            + float(doc_emotions['fear']) \
+            + float(doc_emotions['sadness'])
 
-        ret = "Colère = " + str(round(float(doc_emotions['anger'])/sum, 2)) + "\n"\
-              + "Dégout = " + str(round(float(doc_emotions['disgust'])/sum, 2)) + "\n"\
-              + "Peur = " + str(round(float(doc_emotions['fear'])/sum, 2)) + "\n"\
-              + "Joie = " + str(round(float(doc_emotions['joy'])/sum, 2)) + "\n"\
-              + "Tristesse = " + str(round(float(doc_emotions['sadness'])/sum, 2)) + "\n"
+        ret = "Colère = " + str(round(float(doc_emotions['anger']) / sum, 2)) + "\n" \
+            + "Dégout = " + str(round(float(doc_emotions['disgust']) / sum, 2)) + "\n" \
+            + "Peur = " + str(round(float(doc_emotions['fear']) / sum, 2)) + "\n" \
+            + "Joie = " + str(round(float(doc_emotions['joy']) / sum, 2)) + "\n" \
+            + "Tristesse = " + str(round(float(doc_emotions['sadness']) / sum, 2)) + "\n"
 
     else:
         ret = "Je suis en PLS. Pose cette poule et reviens plus tard. (Status code = " + str(r.status_code) + ")"
@@ -122,7 +120,6 @@ def analyse_emotion(message: str) -> str:
 
 
 def analyse_emotion_image(image_url: str) -> str:
-    import http.client, urllib.request, urllib.parse, urllib.error, base64, sys
     headers = {
         'Content-Type': 'application/json',
         'Ocp-Apim-Subscription-Key': key_microsoft_emotion,
