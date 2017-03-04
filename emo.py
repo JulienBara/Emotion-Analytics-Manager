@@ -147,7 +147,7 @@ def draw_emotions(emotions_dict, file_path):
     img = cv.imread(file_path_local, cv.IMREAD_COLOR)
     for face in emotions_dict:
         rect = face["faceRectangle"]
-        cv.rectangle(img, (rect["left"], rect["top"]), (rect["left"] + rect["width"], rect["top"] + rect["height"]), (0, 255, 0), 2)
+        cv.rectangle(img, (rect["left"], rect["top"]), (rect["left"] + rect["width"], rect["top"] + rect["height"]), (0, 255, 0), int(img.shape[0]/500)+1)
 
         emotions = face["scores"]
         max_score = 0
@@ -156,7 +156,7 @@ def draw_emotions(emotions_dict, file_path):
             if emotions[emotion] > max_score:
                 max_emotion = emotion
                 max_score = emotions[emotion]
-        cv.putText(img, max_emotion + ": " + str(max_score), (rect["left"], rect["top"] - 10), font, 1, (0, 255, 0), 2)
+        cv.putText(img, max_emotion + ": " + str(max_score), (rect["left"], rect["top"] - 2), font, img.shape[0]/500, (0, 255, 0), int(img.shape[0]/500)+1)
         cv.imwrite(file_path_local, img)
 
     return file_path_local
