@@ -9,10 +9,10 @@ logging.basicConfig(level=logging.DEBUG,
                     format='%(asctime)s - %(name)s - %(levelname)s - %(message)s')
 
 # Read keys
-key_telegram = open('./key').read().splitlines()[0]
-key_yandex_translation = open('./key_yandex_translation').read().splitlines()[0]
-key_ibm_watson_text_to_emotion = open('./apikey').read().splitlines()[0]
-key_microsoft_emotion = open('./keyMicrosoftEmotion').read().splitlines()[0]
+key_telegram = open('./keys/keyTelegram').read().splitlines()[0]
+key_yandex_translation = open('./keys/keyYandexTranslation').read().splitlines()[0]
+key_ibm_watson_text_to_emotion = open('./keys/keyIbmWatsonTextToEmotion').read().splitlines()[0]
+key_microsoft_emotion = open('./keys/keyMicrosoftEmotion').read().splitlines()[0]
 
 
 # Basic commands
