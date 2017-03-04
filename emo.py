@@ -31,7 +31,7 @@ def emo(bot, update, args):
 
 def emo_image(bot, update):
     chat_id = update.message.chat_id
-    file_path = bot.getFile(update.message.photo[2].file_id).file_path
+    file_path = bot.getFile(update.message.photo[len(update.message.photo) - 1].file_id).file_path
     emotions_dict = analyse_emotion_image(file_path)
     file_path_local = draw_emotions(emotions_dict, file_path)
     bot.sendPhoto(chat_id=chat_id, photo=open(file_path_local, 'rb'))
@@ -141,11 +141,21 @@ def analyse_emotion_image(image_url: str) -> json:
 
 def draw_emotions(emotions_dict, file_path):
     file_path_local = "emo_picture.jpg"
+    font = cv.FONT_HERSHEY_SIMPLEX
     urllib.request.urlretrieve(file_path, file_path_local)
     img = cv.imread(file_path_local, cv.IMREAD_COLOR)
     for face in emotions_dict:
         rect = face["faceRectangle"]
-        cv.rectangle(img, (rect["left"], rect["top"]), (rect["left"] + rect["width"], rect["top"] + rect["height"]), (0, 255, 0), 3)
+        cv.rectangle(img, (rect["left"], rect["top"]), (rect["left"] + rect["width"], rect["top"] + rect["height"]), (0, 255, 0), 2)
+
+        emotions = face["scores"]
+        max_score = 0
+        max_emotion = "anger"
+        for emotion in emotions:
+            if emotions[emotion] > max_score:
+                max_emotion = emotion
+                max_score = emotions[emotion]
+        cv.putText(img, max_emotion + ": " + str(max_score), (rect["left"], rect["top"] - 10), font, 1, (0, 255, 0), 2)
         cv.imwrite(file_path_local, img)
 
     return file_path_local
