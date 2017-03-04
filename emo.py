@@ -9,9 +9,9 @@ logging.basicConfig(level=logging.DEBUG,
                     format='%(asctime)s - %(name)s - %(levelname)s - %(message)s')
 
 # Read keys
-telegramKey = open('./key').read().splitlines()[0]
-yandexKey = open('./yandexKey').read().splitlines()[0]
-watsonKey = open('./apikey').read().splitlines()[0]
+key_telegram = open('./key').read().splitlines()[0]
+key_yandex_translation = open('./key_yandex_translation').read().splitlines()[0]
+key_ibm_watson_text_to_emotion = open('./apikey').read().splitlines()[0]
 key_microsoft_emotion = open('./keyMicrosoftEmotion').read().splitlines()[0]
 
 
@@ -39,7 +39,7 @@ def emo_image(bot, update):
 # Functions
 def analyse_emotion(message: str) -> str:
     url = "https://translate.yandex.net/api/v1.5/tr.json/translate"
-    query = {'key': yandexKey,
+    query = {'key': key_yandex_translation,
              'lang': 'en',
              'text': message}
 
@@ -54,7 +54,7 @@ def analyse_emotion(message: str) -> str:
         print(translation)
 
         url = "http://gateway-a.watsonplatform.net/calls/text/TextGetEmotion"
-        query = {'apikey': watsonKey,
+        query = {'apikey': key_ibm_watson_text_to_emotion,
                  'text': translation,
                  'outputMode': 'json'}
 
@@ -148,7 +148,7 @@ def analyse_emotion_image(image_url: str) -> str:
 
 ########################################
 
-updater = Updater(telegramKey)
+updater = Updater(key_telegram)
 dispatcher = updater.dispatcher
 
 dispatcher.add_handler(CommandHandler('startEmo', start))
