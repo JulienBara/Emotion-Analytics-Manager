@@ -33,8 +33,9 @@ def emo_image(bot, update):
     chat_id = update.message.chat_id
     file_path = bot.getFile(update.message.photo[len(update.message.photo) - 1].file_id).file_path
     emotions_dict = analyse_emotion_image(file_path)
-    file_path_local = draw_emotions(emotions_dict, file_path)
-    bot.sendPhoto(chat_id=chat_id, photo=open(file_path_local, 'rb'))
+    if len(emotions_dict) > 0:
+        file_path_local = draw_emotions(emotions_dict, file_path)
+        bot.sendPhoto(chat_id=chat_id, photo=open(file_path_local, 'rb'))
 
 
 # Functions
