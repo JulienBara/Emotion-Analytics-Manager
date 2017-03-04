@@ -1,7 +1,8 @@
 from telegram.ext import Updater, CommandHandler, MessageHandler, Filters
 import requests
-# import http.client, urllib.request, urllib.parse, urllib.error, base64, sys
+import http.client, urllib.request, urllib.parse, urllib.error, base64, sys
 import logging
+import cv2 as cv
 import json
 
 logging.basicConfig(level=logging.DEBUG,
@@ -31,8 +32,9 @@ def emo(bot, update, args):
 def emo_image(bot, update):
     chat_id = update.message.chat_id
     file_path = bot.getFile(update.message.photo[2].file_id).file_path
-    message = analyse_emotion_image(file_path)
-    bot.sendMessage(chat_id, text=message)
+    emotions_dict = analyse_emotion_image(file_path)
+    file_path_local = draw_emotions(emotions_dict, file_path)
+    bot.sendPhoto(chat_id=chat_id, photo=open(file_path_local, 'rb'))
 
 
 # Functions
@@ -120,7 +122,7 @@ def analyse_emotion(message: str) -> str:
     return ret
 
 
-def analyse_emotion_image(image_url: str) -> dict:
+def analyse_emotion_image(image_url: str) -> json:
     url = "https://westus.api.cognitive.microsoft.com/emotion/v1.0/recognize"
 
     headers = {'Content-Type': 'application/json',
@@ -137,8 +139,16 @@ def analyse_emotion_image(image_url: str) -> dict:
     return r.json()
 
 
+def draw_emotions(emotions_dict, file_path):
+    file_path_local = "emo_picture.jpg"
+    urllib.request.urlretrieve(file_path, file_path_local)
+    img = cv.imread(file_path_local, cv.IMREAD_COLOR)
+    for face in emotions_dict:
+        rect = face["faceRectangle"]
+        cv.rectangle(img, (rect["left"], rect["top"]), (rect["left"] + rect["width"], rect["top"] + rect["height"]), (0, 255, 0), 3)
+        cv.imwrite(file_path_local, img)
 
-    return response
+    return file_path_local
 
 
 ########################################
